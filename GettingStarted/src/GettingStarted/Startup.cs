@@ -6,6 +6,9 @@ using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using GettingStarted.Core;
 using GettingStarted.Models;
+using GettingStarted.IRepository;
+using GettingStarted.Repository;
+using GettingStarted.Logic;
 
 namespace GettingStarted
 {
@@ -40,7 +43,14 @@ namespace GettingStarted
             var connection = @"Server=localhost\SQLEXPRESS;Database=DEMO_MVC6;Integrated Security=True;MultipleActiveResultSets=True;";
             services.AddDbContext<DemoContext>(options => options.UseSqlServer(connection));
 
+            //Add application services
+            //Repo Services
+            services.AddTransient<IParentRepository, ParentRepository>();
+            services.AddTransient<IChildRepository, ChildRepository>();
 
+            //Logic services
+            services.AddTransient<IParentLogic, ParentLogic>();
+            services.AddTransient<IChildLogic, ChildLogic>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
